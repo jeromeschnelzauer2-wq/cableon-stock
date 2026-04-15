@@ -381,6 +381,22 @@ select option{background:var(--bg3)}
 
 .st-view-btn{padding:8px 14px;border-radius:8px;border:1.5px solid var(--border2);background:none;color:var(--text3);font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
 .st-view-btn.active{background:var(--accentbg);color:var(--accent);border-color:var(--accent)}
+
+/* ── VALEUR SCREEN ───────────────────────────────── */
+.fifo-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;margin-bottom:5px;transition:background .12s}
+.fifo-first{background:var(--greenbg);border:1.5px solid var(--greenborder)}
+.fifo-other{background:var(--bg3);border:1px solid var(--border)}
+.fifo-rank{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0}
+.fifo-rank.r1{background:var(--green);color:#fff}
+.fifo-rank.rn{background:var(--bg);border:1px solid var(--border2);color:var(--text3)}
+.val-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.val-card-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer}
+.val-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.val-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 8px;text-align:center}
+.val-stat-val{font-size:18px;font-weight:800;font-family:var(--mono);letter-spacing:-0.3px}
+.val-stat-lbl{font-size:9px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+/* Price badge on rack cells */
+.cell-price{font-size:7px;font-weight:800;color:#fff;background:rgba(5,150,105,.75);border-radius:3px;padding:1px 3px;display:inline-block;margin-top:1px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -421,6 +437,10 @@ select option{background:var(--bg3)}
           <label>Longueur (m) — optionnel</label>
           <input id="aj-long" type="number" min="0" placeholder="ex : 500 m"/>
         </div>
+        <div class="field">
+          <label>💰 Prix d'achat (€/m) — optionnel</label>
+          <input id="aj-prix" type="number" min="0" step="0.01" placeholder="ex : 2.50"/>
+        </div>
       </div>
       <div class="card">
         <div class="card-title">📍 Destination</div>
@@ -433,6 +453,24 @@ select option{background:var(--bg3)}
           </button>
         </div>
         <div id="aj-preview"></div>
+        <div class="field-row" style="margin-top:10px">
+          <div class="field">
+            <label>👤 Utilisateur</label>
+            <div class="select-wrap">
+              <select id="aj-user">
+                <option value="">— Choisir —</option>
+                <option>Jérôme</option>
+                <option>Sébastien</option>
+                <option>Mattéo</option>
+                <option>Maryne</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>💬 Commentaire (optionnel)</label>
+            <input id="aj-comment" type="text" placeholder="Remarque, info…"/>
+          </div>
+        </div>
         <button class="btn btn-primary" onclick="validerAjout()" style="margin-top:4px">✓ Enregistrer le touret</button>
       </div>
     </div>
@@ -464,6 +502,18 @@ select option{background:var(--bg3)}
           </button>
         </div>
         <div id="dd-preview"></div>
+        <div class="field" style="margin-top:10px">
+          <label>👤 Utilisateur</label>
+          <div class="select-wrap">
+            <select id="dep-user">
+              <option value="">— Choisir —</option>
+              <option>Jérôme</option>
+              <option>Sébastien</option>
+              <option>Mattéo</option>
+              <option>Maryne</option>
+            </select>
+          </div>
+        </div>
         <button class="btn btn-primary" onclick="confirmerDeplacement()" style="margin-top:4px">↔️ Confirmer le déplacement</button>
       </div>
     </div>
@@ -488,6 +538,18 @@ select option{background:var(--bg3)}
         <div class="field">
           <label>Motif de sortie (obligatoire)</label>
           <textarea id="so-justif" placeholder="Ex : Livraison chantier Strasbourg, BL n°12345&#10;Ex : Retour fournisseur / Perte / Casse…"></textarea>
+        </div>
+        <div class="field">
+          <label>👤 Utilisateur</label>
+          <div class="select-wrap">
+            <select id="so-user">
+              <option value="">— Choisir —</option>
+              <option>Jérôme</option>
+              <option>Sébastien</option>
+              <option>Mattéo</option>
+              <option>Maryne</option>
+            </select>
+          </div>
         </div>
         <button class="btn btn-danger" onclick="confirmerSortie()">🚀 Sortir du stock</button>
       </div>
@@ -531,6 +593,24 @@ select option{background:var(--bg3)}
         </div>
         <div id="cp-len-info" style="margin-top:8px"></div>
         <div id="cp-total-info" style="margin-top:4px"></div>
+        <div class="field-row" style="margin-top:10px">
+          <div class="field">
+            <label>👤 Utilisateur</label>
+            <div class="select-wrap">
+              <select id="cp-user">
+                <option value="">— Choisir —</option>
+                <option>Jérôme</option>
+                <option>Sébastien</option>
+                <option>Mattéo</option>
+                <option>Maryne</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>💬 Commentaire (optionnel)</label>
+            <input id="cp-comment" type="text" placeholder="Chantier, remarque…"/>
+          </div>
+        </div>
         <button class="btn btn-purple" onclick="validerToutesCoupes()" style="margin-top:10px">✂️ Valider toutes les coupes</button>
       </div>
     </div><!-- end coup-tab-1 -->
@@ -633,6 +713,13 @@ select option{background:var(--bg3)}
       <div id="history-list"></div>
     </div>
 
+    <!-- ══════ VALEUR ══════ -->
+    <div id="screen-valeur" class="screen">
+      <div class="section-title">💰 Valeur du stock</div>
+      <div class="section-sub">Valorisation FIFO — prix au mètre</div>
+      <div id="valeur-content"></div>
+    </div>
+
   </div><!-- /content -->
 
   <nav class="nav">
@@ -642,11 +729,12 @@ select option{background:var(--bg3)}
       <button class="nav-btn" onclick="showScreen('sortie',this)"><span class="nav-icon">🚀</span>Sortie</button>
       <button class="nav-btn" onclick="showScreen('coupe',this)"><span class="nav-icon">✂️</span>Coupe</button>
     </div>
-    <div class="nav-row">
+    <div class="nav-row" style="grid-template-columns:repeat(5,1fr)">
       <button class="nav-btn" onclick="showScreen('emplacement',this)"><span class="nav-icon">📊</span>Racks</button>
       <button class="nav-btn" onclick="showScreen('stocktotal',this)"><span class="nav-icon">📦</span>Stock</button>
       <button class="nav-btn" onclick="showScreen('produits',this)"><span class="nav-icon">🏷️</span>Produits</button>
       <button class="nav-btn" onclick="showScreen('historique',this)"><span class="nav-icon">📋</span>Historique</button>
+      <button class="nav-btn" onclick="showScreen('valeur',this)"><span class="nav-icon">💰</span>Valeur</button>
     </div>
   </nav>
 </div>
@@ -1056,9 +1144,11 @@ function cellInnerHTML(items, clickable){
   if(items.length===1){
     const it=items[0];
     const ci=getProdColorIdx(it.ref);
+    const valeur=it.prixM&&it.longueur?((parseFloat(it.prixM)*parseFloat(it.longueur)).toFixed(0)+'€'):'';
     return `<div class="cell-occ" style="background:var(--pc${ci}bg);border:2px solid var(--pc${ci}bd);border-radius:5px;padding:4px 2px;cursor:pointer">
       <div style="font-size:11px;font-weight:900;color:var(--pc${ci});line-height:1.1">${it.section}</div>
       ${it.longueur?`<div style="font-size:10px;font-family:var(--mono);font-weight:800;color:#1a2a3a;background:rgba(0,0,0,.07);border-radius:3px;padding:1px 3px;margin-top:2px;display:inline-block">${it.longueur}m</div>`:''}
+      ${valeur?`<div class="cell-price">${valeur}</div>`:''}
     </div>`;
   }
   // Palette: show colored pills per product
@@ -1066,7 +1156,8 @@ function cellInnerHTML(items, clickable){
     const ci=getProdColorIdx(it.ref);
     return `<div style="font-size:6px;padding:1px 3px;background:var(--pc${ci}bg);border:1px solid var(--pc${ci}bd);border-radius:2px;color:var(--pc${ci});font-weight:700;white-space:nowrap">${it.section}${it.longueur?' '+it.longueur+'m':''}</div>`;
   }).join('');
-  return `<div class="cell-occ c-palette" style="border-radius:4px;cursor:pointer"><div style="font-size:8px;font-weight:700;color:var(--amber);margin-bottom:1px">📦 ${items.length}</div><div style="display:flex;flex-wrap:wrap;gap:1px;justify-content:center">${pills}${items.length>4?`<div style="font-size:6px;color:var(--text3)">+${items.length-4}</div>`:''}</div></div>`;
+  const totalVal=items.reduce((s,it)=>s+(it.prixM&&it.longueur?parseFloat(it.prixM)*parseFloat(it.longueur):0),0);
+  return `<div class="cell-occ c-palette" style="border-radius:4px;cursor:pointer"><div style="font-size:8px;font-weight:700;color:var(--amber);margin-bottom:1px">📦 ${items.length}</div><div style="display:flex;flex-wrap:wrap;gap:1px;justify-content:center">${pills}${items.length>4?`<div style="font-size:6px;color:var(--text3)">+${items.length-4}</div>`:''}</div>${totalVal>0?`<div class="cell-price" style="margin-top:2px">${totalVal.toFixed(0)}€</div>`:''}</div>`;
 }
 
 function pickCell(idx){
@@ -1149,27 +1240,35 @@ function validerAjout(){
   if(!loc){ toast('Choisissez un emplacement','error'); return; }
   const long=gv('aj-long');
   if(!long || parseFloat(long)<=0){ toast('La longueur est obligatoire','error'); document.getElementById('aj-long').focus(); return; }
-  doAjout(p,loc,long);
+  const user=gv('aj-user');
+  if(!user){ toast('Choisissez un utilisateur','error'); document.getElementById('aj-user').focus(); return; }
+  const comment=gv('aj-comment');
+  const prix=gv('aj-prix');
+  doAjout(p,loc,long,user,comment,prix);
 }
 
-function doAjout(p,loc,long){
-  const newItem={pid:genPid(),ref:p.ref,nom:p.nom,section:p.section,longueur:long||null};
+function doAjout(p,loc,long,user,comment,prix){
+  const prixVal=prix&&parseFloat(prix)>0?String(parseFloat(prix)):null;
+  const newItem={pid:genPid(),ref:p.ref,nom:p.nom,section:p.section,longueur:long||null,prixM:prixVal,dateAjout:Date.now()};
   if(loc.type==='stock'){
     const key=ck(loc.rack,loc.etage,loc.empl,loc.compo);
     if(!stock[key]) stock[key]=[];
     stock[key].push(newItem);
-    addHistory('ajout',p.nom,p.section,loc.rack,loc.etage,loc.empl,loc.compo,long);
+    addHistory('ajout',p.nom,p.section,loc.rack,loc.etage,loc.empl,loc.compo,long,null,null,null,user||null,comment||null);
   } else {
     const key=rck(loc.niveau,loc.empl);
     rackCoupe[key]={...newItem,bl:null,date:Date.now(),source:'Ajout direct'};
-    addHistory('ajout',p.nom+' →RC',p.section,'Rack Coupe',loc.niveau,loc.empl,'',long);
+    addHistory('ajout',p.nom+' →RC',p.section,'Rack Coupe',loc.niveau,loc.empl,'',long,null,null,null,user||null,comment||null);
   }
   save();
-  toast(`✓ Ajouté : ${p.nom} (${p.section})`,'success');
+  toast(`✓ Ajouté : ${p.nom} (${p.section})`+(prixVal?` — ${prixVal} €/m`:''),'success');
   selectedProd['aj']=null;
   resetProdBox('aj');
   resetSlot('aj');
   document.getElementById('aj-long').value='';
+  document.getElementById('aj-comment').value='';
+  document.getElementById('aj-user').value='';
+  document.getElementById('aj-prix').value='';
 }
 
 function resetProdBox(slot){
@@ -1188,6 +1287,8 @@ function confirmerDeplacement(){
   if(!d){ toast('Choisissez la destination','error'); return; }
   const item=getSelItem(s);
   if(!item){ toast('Source vide ou touret non sélectionné','error'); return; }
+  const user=gv('dep-user');
+  if(!user){ toast('Choisissez un utilisateur','error'); document.getElementById('dep-user').focus(); return; }
   const dItems=getCellItems(d);
   let body=`Déplacer <strong>${item.nom}</strong> (${item.section}${item.longueur?' — '+item.longueur+'m':''})<br/>De : ${locLabel(s)}<br/>Vers : ${locLabel(d)}`;
   if(dItems.length>0) body+=`<br/><br/>La destination contient ${dItems.length} touret(s) — le touret sera ajouté à la palette.`;
@@ -1207,14 +1308,15 @@ function confirmerDeplacement(){
       const dk=ck(d.rack,d.etage,d.empl,d.compo);
       if(!stock[dk]) stock[dk]=[];
       stock[dk].push(di);
-      addHistory('deplacement',item.nom,item.section,d.rack,d.etage,d.empl,d.compo);
+      addHistory('deplacement',item.nom,item.section,d.rack,d.etage,d.empl,d.compo,null,null,null,null,user||null,null);
     } else {
       rackCoupe[rck(d.niveau,d.empl)]={...di,bl:null,date:Date.now(),source:locLabel(s)};
-      addHistory('deplacement',item.nom,item.section,'Rack Coupe',d.niveau,d.empl,'');
+      addHistory('deplacement',item.nom,item.section,'Rack Coupe',d.niveau,d.empl,'',null,null,null,null,user||null,null);
     }
     save();
     toast('✓ Déplacement effectué','success');
     resetSlot('ds'); resetSlot('dd');
+    document.getElementById('dep-user').value='';
   });
 }
 
@@ -1226,6 +1328,8 @@ function confirmerSortie(){
   if(!item){ toast('Emplacement vide ou touret non sélectionné','error'); return; }
   const justif=gv('so-justif');
   if(!justif){ toast('La justification est obligatoire','error'); document.getElementById('so-justif').focus(); return; }
+  const user=gv('so-user');
+  if(!user){ toast('Choisissez un utilisateur','error'); document.getElementById('so-user').focus(); return; }
 
   showModal('Confirmer la sortie',
     `Sortir <strong>${item.nom}</strong> (${item.section}) de ${locLabel(loc)}<br/><br/>Motif : <em>${justif}</em>`,
@@ -1240,11 +1344,12 @@ function confirmerSortie(){
       addHistory('sortie',item.nom,item.section,
         loc.type==='stock'?loc.rack:'Rack Coupe',
         loc.type==='stock'?loc.etage:loc.niveau,
-        loc.type==='stock'?loc.empl:loc.empl,'',null,null,justif);
+        loc.type==='stock'?loc.empl:loc.empl,'',null,null,justif,null,user||null,null);
       save();
       toast('✓ Sorti du stock','success');
       resetSlot('so');
       document.getElementById('so-justif').value='';
+      document.getElementById('so-user').value='';
     });
 }
 
@@ -1350,6 +1455,9 @@ function validerToutesCoupes(){
   const c=rackCoupe[srcKey]; if(!c){ toast('Source vide !','error'); return; }
   const pendingStr=gv('cp-long');
   if(coupeLines.length===0&&(!pendingStr||parseFloat(pendingStr)<=0)){ toast('Ajoutez au moins une coupe','error'); return; }
+  const user=gv('cp-user');
+  if(!user){ toast('Choisissez un utilisateur','error'); document.getElementById('cp-user').focus(); return; }
+  const comment=gv('cp-comment');
   if(pendingStr&&parseFloat(pendingStr)>0){
     coupeLines.push({long:parseFloat(pendingStr),bl:gv('cp-bl')||null});
     document.getElementById('cp-long').value='';
@@ -1372,13 +1480,13 @@ function validerToutesCoupes(){
           if(remaining<=0){
             delete rackCoupe[srcKey];
             deleted=true;
-            addHistory('coupe',c.nom||c.section,c.section,'Rack Coupe',coupeSrcSel.niveau,coupeSrcSel.empl,'',line.long,line.bl,null,'épuisé — touret retiré');
+            addHistory('coupe',c.nom||c.section,c.section,'Rack Coupe',coupeSrcSel.niveau,coupeSrcSel.empl,'',line.long,line.bl,null,'épuisé — touret retiré',user||null,comment||null);
           } else {
             rackCoupe[srcKey].longueur=String(remaining); // deduct on each cut
-            addHistory('coupe',c.nom||c.section,c.section,'Rack Coupe',coupeSrcSel.niveau,coupeSrcSel.empl,'',line.long,line.bl);
+            addHistory('coupe',c.nom||c.section,c.section,'Rack Coupe',coupeSrcSel.niveau,coupeSrcSel.empl,'',line.long,line.bl,null,null,user||null,comment||null);
           }
         } else {
-          addHistory('coupe',c.nom||c.section,c.section,'Rack Coupe',coupeSrcSel.niveau,coupeSrcSel.empl,'',line.long,line.bl);
+          addHistory('coupe',c.nom||c.section,c.section,'Rack Coupe',coupeSrcSel.niveau,coupeSrcSel.empl,'',line.long,line.bl,null,null,user||null,comment||null);
         }
       });
       save();
@@ -1386,6 +1494,8 @@ function validerToutesCoupes(){
       coupeLines=[];
       document.getElementById('cp-len-info').innerHTML='';
       document.getElementById('cp-total-info').innerHTML='';
+      document.getElementById('cp-comment').value='';
+      document.getElementById('cp-user').value='';
       renderCoupeLines();
       coupeSrcSel=null;
       renderCoupeSrc();
@@ -1524,18 +1634,152 @@ function showCellDetails(key){
   if(!items.length) return;
   const parts=key.split('||');
   const pos=`${parts[0]} › ${parts[1]} › ${parts[2]} › ${parts[3]}`;
-  if(items.length===1){
-    const it=items[0];
-    showModal('Détail touret',`<strong>${it.nom}</strong><br/>${it.section}${it.longueur?'<br/>'+it.longueur+' m':''}<br/><br/>📍 ${pos}`,null,'Fermer');
-  } else {
-    const list=items.map((it,i)=>`<div style="padding:6px 0;border-bottom:1px solid rgba(30,49,85,.5)"><strong>${i+1}. ${it.nom}</strong><br/><span style="color:var(--text3)">${it.section}</span>${it.longueur?'<br/><span style="color:var(--green);font-family:var(--mono);font-size:13px">'+it.longueur+'m</span>':''}</div>`).join('');
-    showModal(`Palette — ${items.length} tourets`,`📍 ${pos}<br/><br/>${list}`,null,'Fermer');
-  }
+  const ci0=items.length?getProdColorIdx(items[0].ref):0;
+
+  let html=`<div style="margin-bottom:14px;padding:10px 12px;background:var(--accentbg);border-radius:8px;border:1px solid rgba(0,180,255,.2)">
+    <div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px">📍 Emplacement</div>
+    <div style="font-size:14px;font-weight:800;color:var(--text)">${pos}</div>
+  </div>`;
+
+  items.forEach((it)=>{
+    const ci=getProdColorIdx(it.ref);
+    html+=`<div style="background:var(--bg3);border:2px solid var(--pc${ci}bd);border-radius:10px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--pc${ci});flex-shrink:0"></div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">${it.nom||it.section}</div>
+          <div style="font-size:11px;color:var(--text3)">${it.section}</div>
+        </div>
+      </div>
+      <label style="display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">📏 Longueur (m)</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="len-edit-${it.pid}" type="number" min="0" step="0.1"
+          value="${it.longueur||''}" placeholder="Non renseignée"
+          style="flex:1;height:46px;padding:0 14px;background:var(--bg);border:2px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:18px;font-weight:800;transition:border-color .15s"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border2)'"/>
+        <button onclick="saveCellLength('${key}','${it.pid}')"
+          style="height:46px;padding:0 16px;background:linear-gradient(135deg,#0090d4,#005fa3);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:13px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,144,212,.3)">
+          💾 Sauvegarder
+        </button>
+      </div>
+      <button onclick="clearCellLength('${key}','${it.pid}')"
+        style="margin-top:8px;background:none;border:none;color:var(--text3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);padding:0;text-decoration:underline;text-underline-offset:2px">
+        Effacer la longueur
+      </button>
+      <div style="margin-top:12px">
+        <label style="display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">💰 Prix d'achat (€/m)</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="prix-edit-${it.pid}" type="number" min="0" step="0.01"
+            value="${it.prixM||''}" placeholder="Non renseigné"
+            style="flex:1;height:42px;padding:0 14px;background:var(--bg);border:2px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:15px;font-weight:700;transition:border-color .15s"
+            onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border2)'"/>
+          <button onclick="saveCellPrix('${key}','${it.pid}')"
+            style="height:42px;padding:0 14px;background:linear-gradient(135deg,#047857,#065f46);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:12px;white-space:nowrap">
+            💾 OK
+          </button>
+        </div>
+        ${it.prixM&&it.longueur?`<div style="margin-top:6px;font-size:11px;color:var(--green);font-weight:700">💰 Valeur totale : ${(parseFloat(it.prixM)*parseFloat(it.longueur)).toFixed(2)} €</div>`:''}
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('spotlight-body').innerHTML=html;
+  // Update header text
+  document.querySelector('#spotlight-overlay .sheet-hd-title').textContent='✏️ Modifier la longueur';
+  document.querySelector('#spotlight-overlay .sheet-hd-sub').textContent=items.length>1?`Palette — ${items.length} tourets`:'Touret unique';
+  document.getElementById('spotlight-overlay').classList.add('open');
+}
+
+function saveCellLength(key,pid){
+  const items=stock[key]; if(!items) return;
+  const item=items.find(i=>i.pid===pid); if(!item) return;
+  const input=document.getElementById('len-edit-'+pid); if(!input) return;
+  const val=input.value.trim();
+  if(val && parseFloat(val)<=0){ toast('Longueur invalide','error'); return; }
+  item.longueur=val?String(parseFloat(val)):null;
+  save(); renderEmplacement();
+  toast('✓ Longueur mise à jour','success');
+  closeSpotlight();
+}
+
+function clearCellLength(key,pid){
+  const items=stock[key]; if(!items) return;
+  const item=items.find(i=>i.pid===pid); if(!item) return;
+  item.longueur=null;
+  save(); renderEmplacement();
+  toast('✓ Longueur effacée','success');
+  closeSpotlight();
+}
+
+function saveCellPrix(key,pid){
+  const items=stock[key]; if(!items) return;
+  const item=items.find(i=>i.pid===pid); if(!item) return;
+  const input=document.getElementById('prix-edit-'+pid); if(!input) return;
+  const val=input.value.trim();
+  if(val && parseFloat(val)<=0){ toast('Prix invalide','error'); return; }
+  item.prixM=val?String(parseFloat(val)):null;
+  save(); renderEmplacement();
+  toast('✓ Prix mis à jour','success');
+  closeSpotlight();
 }
 function showCoupeDetail(key){
   const c=rackCoupe[key]; if(!c) return;
   const p=key.split('||');
-  showModal('Touret sur rack de coupe',`<strong>${c.nom||c.section}</strong><br/>${c.section}${c.longueur?'<br/>'+c.longueur+' m disponibles':''}<br/><br/>📍 ${p[0]} — ${p[1]}${c.source?'<br/>Origine : '+c.source:''}`,null,'Fermer');
+  const pos=`${p[0]} — ${p[1]}`;
+  const ci=getProdColorIdx(c.ref);
+
+  const html=`<div style="margin-bottom:14px;padding:10px 12px;background:var(--purplebg);border-radius:8px;border:1px solid var(--purpleborder)">
+    <div style="font-size:10px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px">✂️ Rack de Coupe</div>
+    <div style="font-size:14px;font-weight:800;color:var(--text)">${pos}</div>
+  </div>
+  <div style="background:var(--bg3);border:2px solid var(--pc${ci}bd);border-radius:10px;padding:14px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--pc${ci});flex-shrink:0"></div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text)">${c.nom||c.section}</div>
+        <div style="font-size:11px;color:var(--text3)">${c.section}</div>
+      </div>
+    </div>
+    <label style="display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">📏 Longueur disponible (m)</label>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input id="len-edit-coupe-${c.pid}" type="number" min="0" step="0.1"
+        value="${c.longueur||''}" placeholder="Non renseignée"
+        style="flex:1;height:46px;padding:0 14px;background:var(--bg);border:2px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:18px;font-weight:800;transition:border-color .15s"
+        onfocus="this.style.borderColor='var(--purple)'" onblur="this.style.borderColor='var(--border2)'"/>
+      <button onclick="saveCoupeLength('${key}','${c.pid}')"
+        style="height:46px;padding:0 16px;background:linear-gradient(135deg,#6d28d9,#4c1d95);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:13px;white-space:nowrap;box-shadow:0 2px 8px rgba(109,40,217,.3)">
+        💾 Sauvegarder
+      </button>
+    </div>
+    <button onclick="clearCoupeLength('${key}')"
+      style="margin-top:8px;background:none;border:none;color:var(--text3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);padding:0;text-decoration:underline;text-underline-offset:2px">
+      Effacer la longueur
+    </button>
+  </div>`;
+
+  document.getElementById('spotlight-body').innerHTML=html;
+  document.querySelector('#spotlight-overlay .sheet-hd-title').textContent='✏️ Modifier la longueur';
+  document.querySelector('#spotlight-overlay .sheet-hd-sub').textContent='Rack de Coupe';
+  document.getElementById('spotlight-overlay').classList.add('open');
+}
+
+function saveCoupeLength(key,pid){
+  const c=rackCoupe[key]; if(!c) return;
+  const input=document.getElementById('len-edit-coupe-'+pid); if(!input) return;
+  const val=input.value.trim();
+  if(val && parseFloat(val)<=0){ toast('Longueur invalide','error'); return; }
+  rackCoupe[key].longueur=val?String(parseFloat(val)):null;
+  save(); renderEmplacement();
+  toast('✓ Longueur mise à jour','success');
+  closeSpotlight();
+}
+
+function clearCoupeLength(key){
+  if(!rackCoupe[key]) return;
+  rackCoupe[key].longueur=null;
+  save(); renderEmplacement();
+  toast('✓ Longueur effacée','success');
+  closeSpotlight();
 }
 function filterRack(el,f){ currentFilter=f; document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); el.classList.add('active'); renderEmplacement(); }
 
@@ -1834,13 +2078,13 @@ function toggleProdDetail(id){
 function filterProduits(val){ renderProduits(val); }
 
 // ─── HISTORIQUE ───────────────────────────────────
-function addHistory(type,nom,section,rack,etage,empl,compo,lon,bl,justif){
-  historique.unshift({type,nom,section,rack,etage,empl,compo,longueur:lon||null,bl:bl||null,justif:justif||null,ts:Date.now()});
+function addHistory(type,nom,section,rack,etage,empl,compo,lon,bl,justif,extra,user,commentaire){
+  historique.unshift({type,nom,section,rack,etage,empl,compo,longueur:lon||null,bl:bl||null,justif:justif||null,user:user||null,commentaire:commentaire||null,ts:Date.now()});
   if(historique.length>300) historique=historique.slice(0,300);
 }
 function renderHistory(filter=''){
   const f=filter.toLowerCase();
-  const items=historique.filter(h=>!f||(h.nom+h.section+(h.rack||'')).toLowerCase().includes(f));
+  const items=historique.filter(h=>!f||(h.nom+h.section+(h.rack||'')+(h.user||'')+(h.commentaire||'')+(h.justif||'')).toLowerCase().includes(f));
   const el=document.getElementById('history-list');
   if(!items.length){ el.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">Aucun mouvement</div></div>`; return; }
   const bc={ajout:'hb-aj',sortie:'hb-so',deplacement:'hb-dep',coupe:'hb-cp'};
@@ -1856,13 +2100,191 @@ function renderHistory(filter=''){
       <div class="hinfo">
         <div class="hnom">${h.nom||h.section}${extra}</div>
         <div class="hdet">${h.section||''}${pos?' · '+pos:''}</div>
+        ${h.user?`<div style="font-size:10px;font-weight:700;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:4px">👤 ${h.user}</div>`:''}
         ${h.justif?`<div class="hjust">📝 ${h.justif}</div>`:''}
+        ${h.commentaire?`<div class="hjust" style="color:var(--text3)">💬 ${h.commentaire}</div>`:''}
       </div>
       <div class="htime">${time}</div>
     </div>`;
   }).join('');
 }
 function filterHistory(val){ renderHistory(val); }
+
+// ─── VALEUR / FIFO / LIFO ─────────────────────────
+let _valTab='fifo';
+function switchValTab(tab){
+  _valTab=tab;
+  ['fifo','lifo','resume'].forEach(t=>{
+    const btn=document.getElementById('vtab-'+t);
+    const cnt=document.getElementById('vtab-cnt-'+t);
+    if(btn) btn.classList.toggle('active',t===tab);
+    if(cnt) cnt.style.display=t===tab?'block':'none';
+  });
+}
+
+function renderValeur(){
+  const el=document.getElementById('valeur-content');
+  if(!el) return;
+
+  const allStock=[];
+  for(const [k,arr] of Object.entries(stock))(arr||[]).forEach(it=>allStock.push({...it,_key:k,_rc:false}));
+  for(const [k,c] of Object.entries(rackCoupe)) if(c) allStock.push({...c,_key:k,_rc:true});
+
+  const priced  =allStock.filter(it=>it.prixM&&parseFloat(it.prixM)>0);
+  const unpriced=allStock.filter(it=>!it.prixM||parseFloat(it.prixM)<=0);
+  const totalVal=priced.reduce((s,it)=>s+(it.longueur?parseFloat(it.longueur):0)*parseFloat(it.prixM),0);
+  const totalLen=priced.reduce((s,it)=>s+(it.longueur?parseFloat(it.longueur):0),0);
+  const avgPrix =totalLen>0?totalVal/totalLen:0;
+  const allPrices=priced.map(it=>parseFloat(it.prixM));
+  const minPrix =allPrices.length?Math.min(...allPrices):0;
+  const maxPrix =allPrices.length?Math.max(...allPrices):0;
+  const nbTourets=priced.length;
+
+  const byRef={};
+  priced.forEach(it=>{
+    if(!byRef[it.ref]) byRef[it.ref]={ref:it.ref,nom:it.nom||'',section:it.section||'',items:[]};
+    byRef[it.ref].items.push(it);
+  });
+  Object.values(byRef).forEach(g=>{
+    g.items.sort((a,b)=>(a.dateAjout||0)-(b.dateAjout||0));
+    g.totalVal=g.items.reduce((s,it)=>s+(it.longueur?parseFloat(it.longueur):0)*parseFloat(it.prixM),0);
+    g.totalLen =g.items.reduce((s,it)=>s+(it.longueur?parseFloat(it.longueur):0),0);
+    g.avgPrix  =g.totalLen>0?g.totalVal/g.totalLen:0;
+    const prices=g.items.map(it=>parseFloat(it.prixM));
+    g.minPrix=Math.min(...prices); g.maxPrix=Math.max(...prices);
+    g.fifoPrix=parseFloat(g.items[0].prixM);
+    g.lifoPrix=parseFloat(g.items[g.items.length-1].prixM);
+    g.prixVar =g.maxPrix-g.minPrix;
+  });
+  const groups=Object.values(byRef).sort((a,b)=>b.totalVal-a.totalVal);
+
+  function renderItemList(items){
+    return items.map((it,idx)=>{
+      const val=(it.longueur?parseFloat(it.longueur):0)*parseFloat(it.prixM);
+      const pos=it._rc?it._key.replace('||',' — '):it._key.replace(/\|\|/g,' › ');
+      const date=it.dateAjout?new Date(it.dateAjout).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'}):'—';
+      return `<div class="fifo-item fifo-other">
+        <div class="fifo-rank rn">${idx+1}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pos}${it._rc?' ✂️':''}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:1px">${date} · <span style="font-family:var(--mono);font-weight:700">${it.prixM} €/m</span> · ${it.longueur||'?'}m</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:13px;font-weight:800;color:var(--text2)">${val.toFixed(2)} €</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderProdCard(g, order){
+    const ci=getProdColorIdx(g.ref);
+    const itemsSorted=order==='lifo'?[...g.items].reverse():g.items;
+    const nextPrix=order==='fifo'?g.fifoPrix:g.lifoPrix;
+    return `<div class="val-card" style="border-color:var(--pc${ci}bd)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--pc${ci});flex-shrink:0"></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${g.nom||g.section}</div>
+          <div style="font-size:11px;color:var(--text3)">${g.section} · ${g.items.length} touret${g.items.length>1?'s':''} · ${g.totalLen}m</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:16px;font-weight:900;color:var(--green)">${g.totalVal.toFixed(2)} €</div>
+          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">${g.avgPrix.toFixed(3)} €/m moy.</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px">
+        <div style="background:var(--bg3);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:12px;font-weight:800;font-family:var(--mono);color:var(--amber)">${g.avgPrix.toFixed(3)}</div>
+          <div style="font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em">Moy. €/m</div>
+        </div>
+        <div style="background:var(--greenbg);border-radius:6px;padding:6px;text-align:center;border:1px solid var(--greenborder)">
+          <div style="font-size:12px;font-weight:800;font-family:var(--mono);color:var(--green)">${g.minPrix.toFixed(3)}</div>
+          <div style="font-size:8px;color:var(--green);text-transform:uppercase;letter-spacing:.04em">Min €/m</div>
+        </div>
+        <div style="background:var(--redbg);border-radius:6px;padding:6px;text-align:center;border:1px solid var(--redborder)">
+          <div style="font-size:12px;font-weight:800;font-family:var(--mono);color:var(--red)">${g.maxPrix.toFixed(3)}</div>
+          <div style="font-size:8px;color:var(--red);text-transform:uppercase;letter-spacing:.04em">Max €/m</div>
+        </div>
+      </div>
+      ${g.prixVar>0.001?`<div style="font-size:10px;color:var(--amber);margin-bottom:8px;padding:5px 8px;background:var(--amberbg);border-radius:5px;border:1px solid var(--amberborder)">⚡ Écart de prix : <strong>${g.prixVar.toFixed(3)} €/m</strong> — coût unitaire ${order.toUpperCase()} : <strong style="font-family:var(--mono)">${nextPrix.toFixed(3)} €/m</strong></div>`:`<div style="font-size:10px;color:var(--green);margin-bottom:8px;padding:5px 8px;background:var(--greenbg);border-radius:5px">✓ Prix homogène sur tous les tourets</div>`}
+      ${renderItemList(itemsSorted)}
+    </div>`;
+  }
+
+  const fifoHtml=`<div class="info-box info-blue" style="margin-bottom:12px">📈 <strong>FIFO</strong> (First In, First Out) — Classement du plus ancien au plus récent. Le coût unitaire FIFO = prix du premier touret entré.</div>${groups.map(g=>renderProdCard(g,'fifo')).join('')}`;
+  const lifoHtml=`<div class="info-box info-purple" style="margin-bottom:12px">📉 <strong>LIFO</strong> (Last In, First Out) — Classement du plus récent au plus ancien. Le coût unitaire LIFO = prix du dernier touret entré.</div>${groups.map(g=>renderProdCard(g,'lifo')).join('')}`;
+
+  let resumeHtml=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px"><thead><tr style="background:var(--accent);color:#fff">
+    <th style="padding:8px 10px;text-align:left;font-weight:700">Câble</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">Tourets</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">Long.</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">Valeur</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">Moy €/m</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">Min €/m</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">Max €/m</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">FIFO €/m</th>
+    <th style="padding:8px 6px;text-align:right;font-weight:700">LIFO €/m</th>
+  </tr></thead><tbody>`;
+  groups.forEach((g,i)=>{
+    const ci=getProdColorIdx(g.ref);
+    resumeHtml+=`<tr style="background:${i%2===0?'var(--bg2)':'var(--bg3)'}">
+      <td style="padding:8px 10px">
+        <div style="display:flex;align-items:center;gap:5px">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--pc${ci});flex-shrink:0"></div>
+          <div><div style="font-size:11px;font-weight:700">${g.section}</div><div style="font-size:9px;color:var(--text3);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.nom}</div></div>
+        </div>
+      </td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono)">${g.items.length}</td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono)">${g.totalLen}m</td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono);font-weight:800;color:var(--green)">${g.totalVal.toFixed(2)}€</td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono);color:var(--amber)">${g.avgPrix.toFixed(3)}</td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono);color:var(--green)">${g.minPrix.toFixed(3)}</td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono);color:var(--red)">${g.maxPrix.toFixed(3)}</td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono);font-weight:700">${g.fifoPrix.toFixed(3)}</td>
+      <td style="padding:8px 6px;text-align:right;font-family:var(--mono);font-weight:700">${g.lifoPrix.toFixed(3)}</td>
+    </tr>`;
+  });
+  resumeHtml+=`<tr style="background:var(--navy);color:#fff;font-weight:800">
+    <td style="padding:9px 10px;font-size:12px;font-weight:900">TOTAL</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono)">${nbTourets}</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono)">${totalLen}m</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono);color:#4ade80;font-size:13px">${totalVal.toFixed(2)}€</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono);color:#fbbf24">${avgPrix.toFixed(3)}</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono);color:#4ade80">${minPrix.toFixed(3)}</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono);color:#f87171">${maxPrix.toFixed(3)}</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono)">—</td>
+    <td style="padding:9px 6px;text-align:right;font-family:var(--mono)">—</td>
+  </tr></tbody></table></div>
+  ${unpriced.length>0?`<div class="info-box info-amber" style="margin-top:12px">⚠️ ${unpriced.length} touret(s) sans prix non inclus.</div>`:''}`;
+
+  let html='';
+  html+=`<div class="val-summary" style="margin-bottom:8px">
+    <div class="val-stat"><div class="val-stat-val c-green">${totalVal>=1000?(totalVal/1000).toFixed(2)+'k':totalVal.toFixed(2)} €</div><div class="val-stat-lbl">Valeur totale</div></div>
+    <div class="val-stat"><div class="val-stat-val c-blue">${nbTourets}</div><div class="val-stat-lbl">Tourets valorisés</div></div>
+    <div class="val-stat"><div class="val-stat-val ${unpriced.length>0?'c-amber':'c-green'}">${unpriced.length}</div><div class="val-stat-lbl">Sans prix</div></div>
+  </div>
+  <div class="val-summary" style="margin-bottom:14px">
+    <div class="val-stat"><div class="val-stat-val" style="color:var(--amber)">${avgPrix.toFixed(3)} €</div><div class="val-stat-lbl">Prix moy. /m</div></div>
+    <div class="val-stat"><div class="val-stat-val c-green">${minPrix.toFixed(3)} €</div><div class="val-stat-lbl">Prix min /m</div></div>
+    <div class="val-stat"><div class="val-stat-val c-red">${maxPrix.toFixed(3)} €</div><div class="val-stat-lbl">Prix max /m</div></div>
+  </div>`;
+
+  if(!groups.length){
+    html+=`<div class="empty"><div class="empty-icon">💰</div><div class="empty-text">Aucun touret valorisé.<br/>Renseignez un prix lors de l'ajout.</div></div>`;
+    el.innerHTML=html; return;
+  }
+
+  html+=`<div style="display:flex;gap:6px;border-bottom:2px solid var(--border2);margin-bottom:14px">
+    <button id="vtab-fifo" class="coup-tab ${_valTab==='fifo'?'active':''}" onclick="switchValTab('fifo')">📈 FIFO</button>
+    <button id="vtab-lifo" class="coup-tab ${_valTab==='lifo'?'active':''}" onclick="switchValTab('lifo')">📉 LIFO</button>
+    <button id="vtab-resume" class="coup-tab ${_valTab==='resume'?'active':''}" onclick="switchValTab('resume')">📋 Résumé</button>
+  </div>
+  <div id="vtab-cnt-fifo" style="display:${_valTab==='fifo'?'block':'none'}">${fifoHtml}</div>
+  <div id="vtab-cnt-lifo" style="display:${_valTab==='lifo'?'block':'none'}">${lifoHtml}</div>
+  <div id="vtab-cnt-resume" style="display:${_valTab==='resume'?'block':'none'}">${resumeHtml}</div>`;
+
+  el.innerHTML=html;
+}
 
 // ─── RESET SLOT ───────────────────────────────────
 function resetSlot(slot){
@@ -1909,7 +2331,8 @@ function showScreen(name,btn){
   if(name==='historique')  renderHistory();
   if(name==='produits')    renderProduits();
   if(name==='stocktotal')  renderStockTotal();
-  if(name==='coupe')       { coupeSrcSel=null; coupeLines=[]; renderCoupeSrc(); setTimeout(()=>{renderCoupeLines();switchCoupeTab(1);},50); }
+  if(name==='valeur')      renderValeur();
+  if(name==='coupe')       { coupeSrcSel=null; coupeLines=[]; renderCoupeSrc(); setTimeout(()=>{renderCoupeLines();switchCoupeTab(1);const cu=document.getElementById('cp-user');if(cu)cu.value='';const cc=document.getElementById('cp-comment');if(cc)cc.value='';},50); }
 
 }
 
